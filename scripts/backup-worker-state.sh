@@ -5,16 +5,13 @@ set -euo pipefail
 test "$(id -u)" = 0
 test ! -d "$BACKUP_DEST/.git"
 command -v age >/dev/null || { echo "age is required to encrypt backups" >&2; exit 1; }
+node=$(hostname -s)
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
-out="$BACKUP_DEST/k3s-$stamp"
+out="$BACKUP_DEST/$node-$stamp"
 install -d -m 0700 "$out"
 tmp=$(mktemp -d "$out/.plain.XXXXXX")
 trap 'rm -rf "$tmp"' EXIT
-tar --xattrs --acls --numeric-owner -C /var/lib/rancher/k3s -czf "$tmp/server-state.tar.gz" server
-age --encrypt --recipient "$AGE_RECIPIENT" --output "$out/server-state.tar.gz.age" "$tmp/server-state.tar.gz"
-if [[ -n "${SOPS_FILE:-}" ]]; then
-  test -f "$SOPS_FILE"
-  install -m 0600 "$SOPS_FILE" "$out/cluster.yaml"
-fi
+tar --xattrs --acls --numeric-owner -C /var/lib/rancher/k3s -czf "$tmp/agent-state.tar.gz" agent
+age --encrypt --recipient "$AGE_RECIPIENT" --output "$out/agent-state.tar.gz.age" "$tmp/agent-state.tar.gz"
 sha256sum "$out"/* > "$out/SHA256SUMS"
-echo "Created encrypted backup $out; copy it to a second protected location before considering it complete."
+echo "Created encrypted worker backup $out; copy it to a second protected location before considering it complete."

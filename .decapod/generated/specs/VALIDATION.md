@@ -100,7 +100,7 @@ flowchart LR
 <!-- decapod:codebase-attestation:start -->
 ## Codebase Attestation
 
-- Repository signal fingerprint: `98607be9b5212190815aae97ad143eb5ed4e2fdbae46b5c7667299342b259c42`
+- Repository signal fingerprint: `5d538758bb3ce9c1a509e978db6962e654afcfa45ec93361c1643881d890e2d0`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `ingress/` (1 files), `kubernetes/` (1 files), `mesh/` (1 files), `networking/` (1 files), `nixos/` (1 files), `secrets/` (1 files)
 - Refreshed from the current codebase by `decapod specs.refresh`
 <!-- decapod:codebase-attestation:end -->
