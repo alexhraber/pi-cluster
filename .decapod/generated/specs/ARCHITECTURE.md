@@ -114,3 +114,11 @@ sequenceDiagram
 |---|---|---|---|
 | Contract drift across components | Medium | High | Spec + schema checks in CI |
 | Runtime saturation under peak load | Medium | High | Capacity model + load tests |
+
+<!-- decapod:codebase-attestation:start -->
+## Codebase Attestation
+
+- Repository signal fingerprint: `7520a564bcff538d0212ae28df82f3adf9f88133e7f85e7530b401d732e49051`
+- Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `ingress/` (1 files), `kubernetes/` (1 files), `mesh/` (1 files), `networking/` (1 files), `nixos/` (1 files)
+- Refreshed from the current codebase by `decapod specs.refresh`
+<!-- decapod:codebase-attestation:end -->
