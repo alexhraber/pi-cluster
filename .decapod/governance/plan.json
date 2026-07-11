@@ -9,9 +9,7 @@
   "proof_hooks": [
     "git diff --check; nix flake check --no-build --no-update-lock-file; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
   ],
-  "unknowns": [
-    "No physical Pi resource measurements or LAN health-check behavior are available yet."
-  ],
+  "unknowns": [],
   "human_questions": [],
   "stop_conditions": [],
   "unresolved_contradictions": [],
@@ -25,5 +23,5 @@
     "file_touch_budget": 8
   },
   "phases": [],
-  "updated_at": "1783812623Z"
+  "updated_at": "1783812751Z"
 }
