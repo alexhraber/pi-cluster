@@ -1,0 +1,22 @@
+schema_version = "1.0.0"
+
+[init]
+specs = true
+ci = true
+diagram_style = "mermaid"
+entrypoints = [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "GEMINI.md",
+    "CODEX.md",
+]
+
+[repo]
+product_name = "pi-cluster"
+product_summary = "Create a production-grade, Git-managed repository for a heterogeneous edge Kubernetes cluster consisting of an intermittent x86_64 NixOS control plane (Cube) and four always-on ARM64 Raspberry Pi 3B+ worker nodes. The repository should define the cluster declaratively, preserve stable identity and recoverability, minimize resource usage, support long-running workloads that continue operating while the control plane is offline, and provide documented, reproducible infrastructure, networking, deployment, backup, validation, and operational procedures. The repository must contain only declarative configuration, automation, documentation, and encrypted secrets, while explicitly excluding live cluster state, credentials, certificates, databases, and other runtime artifacts."
+architecture_direction = "configurations"
+done_criteria = "Establish a reproducible, production-quality repository that declaratively defines and governs a heterogeneous Kubernetes edge cluster with an x86_64 NixOS control plane and four ARM64 Raspberry Pi worker nodes. The completed outcome is a version-controlled infrastructure project that can provision, validate, document, recover, and evolve the cluster while preserving stable cluster identity, supporting long-running edge workloads during intermittent control-plane availability, and providing a secure, maintainable foundation for future networking, service mesh, and application deployment."
+primary_languages = ["Other"]
+external_tracker = false
+container_workspaces = true
+mode = "local"
