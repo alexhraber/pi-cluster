@@ -24,10 +24,12 @@ unused and reserve the addresses in the LAN DHCP service before provisioning.
 
 ## Workload exposure decision
 
-The production direction is redundant ingress on `pi-01` and `pi-02`, with LAN
-clients targeting those fixed addresses. No ingress controller is installed
-by this issue. Direct Pi host ports are allowed only for early diagnostics and
-single-node tests; they are not the production exposure contract.
+The selected future production direction is documented in
+[ingress/design.md](../ingress/design.md): two Traefik replicas on `pi-01`
+and `pi-02`, fixed NodePorts, and LAN DNS answers for both fixed addresses.
+No ingress controller is installed by this repository phase. Direct Pi host
+ports are allowed only for early diagnostics and single-node tests; they are
+not the production exposure contract.
 
 Future ingress must tolerate Cube being off, preserve the selected client
 traffic policy, and document what happens when either ingress Pi is lost.
