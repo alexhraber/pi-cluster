@@ -1,5 +1,10 @@
 # Bootstrap sequence
 
+Do not begin this sequence until [day0-readiness.md](day0-readiness.md) has
+every blocking row physically verified and has explicit human approval. This
+document describes the eventual order; it is not authorization to start
+hardware now.
+
 1. Choose and reserve the Cube and four Pi LAN addresses; publish `cube.lan`
    through LAN DNS.
 2. Provision Cube with NixOS, an encrypted runtime secret mechanism, the

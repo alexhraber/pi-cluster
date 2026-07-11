@@ -44,7 +44,7 @@ These files are the project-local contract for humans and agents.
 <!-- decapod:codebase-attestation:start -->
 ## Codebase Attestation
 
-- Repository signal fingerprint: `436fc5fdc391bd1c2df6a3e0a3d00098363258dc38ed839556f0d1d8ae548f94`
+- Repository signal fingerprint: `2d4c400921310459314911c598f980e87136aa7aaf96e011d838ed0087eed7f4`
 - Significant implementation surfaces: `.github/` (1 files), `README.md/` (1 files), `ingress/` (1 files), `kubernetes/` (1 files), `mesh/` (1 files), `networking/` (1 files), `nixos/` (1 files), `secrets/` (1 files)
 - Refreshed from the current codebase by `decapod specs.refresh`
 <!-- decapod:codebase-attestation:end -->
