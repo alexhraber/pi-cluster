@@ -1,5 +1,8 @@
 # Backup and recovery
 
+The storage choices and ownership model are defined in
+[storage.md](storage.md).
+
 Before every K3s upgrade, run `scripts/backup-k3s-state.sh` as root on Cube to
 an encrypted destination outside Git. Preserve:
 
@@ -11,10 +14,14 @@ an encrypted destination outside Git. Preserve:
 - each worker's `/var/lib/rancher/k3s/agent/` identity and local volume data;
 - a tested copy of the exact Nix flake lock and host configuration.
 
-The backup must be encrypted, access-controlled, integrity-checked, and
+The backup must be age-encrypted, access-controlled, integrity-checked, and
 periodically restore-tested on an isolated machine. Never put its output in
 the repository. Declarative Git content can recreate configuration, not live
 datastore state or application data.
+
+The proposed retention is seven daily, four weekly, and three monthly
+recovery points. Back up before every K3s upgrade and at least weekly when Cube
+is available. Restore-test at least quarterly and before a K3s version change.
 
 Recovery order: restore compatible Cube OS and pinned K3s package; restore
 server identity/token and datastore; start the server at the same stable API
