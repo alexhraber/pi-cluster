@@ -22,6 +22,8 @@ applications own their persistent data on explicitly selected media.
 
 ## Deferred decisions
 
-Fixed LAN addresses, storage medium/filesystem, DNS authority, ingress
-implementation, and mesh choice require facts from the actual LAN and
-measurements on Pi 3B+. They are not fabricated in this foundation.
+The proposed LAN addresses, DNS names, reservations, and north-south exposure
+policy are recorded in [networking/lan-plan.md](../networking/lan-plan.md).
+The address range remains an operator-verified assumption until the physical
+LAN is checked. Storage medium/filesystem, ingress implementation details, and
+mesh choice still require facts from the actual LAN and measurements on Pi 3B+.
