@@ -15,6 +15,7 @@ yamllint -d relaxed .github kubernetes secrets
 
 echo "== Kubernetes manifests =="
 kubectl kustomize kubernetes/base >/dev/null
+kubectl kustomize kubernetes/tests/offline-control-plane >/dev/null
 
 echo "== forbidden tracked runtime paths =="
 if git ls-files | rg -n '(^|/)(backups?|runtime|kubeconfig[^/]*|.*\.kubeconfig|.*\.sqlite3?|.*\.db|.*\.token|.*\.crt)$'; then
