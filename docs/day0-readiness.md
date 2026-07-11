@@ -49,6 +49,7 @@ The following are design evidence, not physical readiness:
 - [Validation commands](validation.md)
 - [Offline-control-plane test design](offline-test-workload.md)
 - [K3s version policy](../k3s/version-policy.md)
+- [Service-mesh evaluation](service-mesh.md)
 
 Repository validation and CI passing do not change a physical row to
 `PHYSICALLY-VERIFIED`.
