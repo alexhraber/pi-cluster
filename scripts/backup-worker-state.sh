@@ -4,6 +4,7 @@ set -euo pipefail
 : "${AGE_RECIPIENT:?set AGE_RECIPIENT to the operator recovery recipient}"
 test "$(id -u)" = 0
 test ! -d "$BACKUP_DEST/.git"
+command -v age >/dev/null || { echo "age is required to encrypt backups" >&2; exit 1; }
 node=$(hostname -s)
 stamp=$(date -u +%Y%m%dT%H%M%SZ)
 out="$BACKUP_DEST/$node-$stamp"
