@@ -3,6 +3,8 @@
 Before every K3s upgrade, run `scripts/backup-k3s-state.sh` as root on Cube to
 an encrypted destination outside Git. Preserve:
 
+- the encrypted `secrets/cluster.yaml` payload and age-key recovery metadata;
+
 - the K3s datastore under `/var/lib/rancher/k3s/server/db/`;
 - the server token;
 - cluster CA and server identity under the K3s data directory;
