@@ -28,8 +28,10 @@ result-*/
 *.iso
 secrets/*.key
 secrets/*.yaml
+!secrets/cluster.yaml
 secrets/*.json
 secrets/*.env
+secrets/.sops.yaml
 backups/
 runtime/
 kubeconfig*
