@@ -17,6 +17,11 @@ check() {
     fail=$((fail + 1))
   fi
 }
+route_check() { ip route get "$1" >/dev/null; }
+ntp_check() { test "$(timedatectl show -p NTPSynchronized --value)" = yes; }
+space_check() { test "$(df --output=avail -B1G / | tail -n 1 | tr -dc 0-9)" -ge 8; }
+memory_check() { test "$(awk '/MemTotal:/ {print $2}' /proc/meminfo)" -ge 700000; }
+thermal_check() { test "$(cat /sys/class/thermal/thermal_zone0/temp)" -lt 80000; }
 
 check "ARM64 architecture" test "$(uname -m)" = aarch64
 check "stable hostname" test "$(hostname -s)" = "$EXPECTED_NODE"
@@ -25,20 +30,20 @@ check "default route" sh -c 'ip route show default | grep -q .'
 api_ip="$(getent ahostsv4 "$EXPECTED_API" 2>/dev/null | awk 'NR == 1 { print $1 }')"
 check "Cube DNS resolution" test -n "$api_ip"
 if [[ -n "$api_ip" ]]; then
-  check "route toward Cube" sh -c 'ip route get "$1" >/dev/null' sh "$api_ip"
+  check "route toward Cube" route_check "$api_ip"
 else
   printf 'FAIL  route toward Cube (DNS did not produce an IPv4 address)\n' >&2
   fail=$((fail + 1))
 fi
 check "SSH service active" systemctl is-active --quiet sshd.service
-check "NTP synchronized" sh -c 'test "$(timedatectl show -p NTPSynchronized --value)" = yes'
+check "NTP synchronized" ntp_check
 check "root filesystem mounted" mountpoint -q /
-check "root filesystem space" sh -c 'test "$(df --output=avail -B1G / | tail -n 1 | tr -dc 0-9)" -ge 8'
-check "minimum memory headroom" sh -c 'test "$(awk "/MemTotal:/ {print \$2}" /proc/meminfo)" -ge 700000'
+check "root filesystem space" space_check
+check "minimum memory headroom" memory_check
 check "no display manager" sh -c '! systemctl is-enabled --quiet display-manager.service 2>/dev/null'
 
 if [[ -r /sys/class/thermal/thermal_zone0/temp ]]; then
-  check "thermal headroom" sh -c 'test "$(cat /sys/class/thermal/thermal_zone0/temp)" -lt 80000'
+  check "thermal headroom" thermal_check
 else
   printf 'WARN  thermal sensor unavailable; record manual cooling evidence\n'
 fi
