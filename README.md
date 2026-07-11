@@ -27,6 +27,7 @@ controller, distributed storage, or an observability stack.
 - `mesh/` — service-mesh decision record; no mesh installation.
 - `scripts/` — read-only and disruption-test verification tooling.
 - `docs/` — architecture, operations, failure, backup, and recovery procedures.
+- `docs/day0-readiness.md` — canonical pre-startup go/no-go checklist.
 - `secrets/` — encrypted-secret instructions and non-secret examples only.
 
 Git contains desired configuration and procedures, never live runtime state;
