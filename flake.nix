@@ -16,5 +16,12 @@
       checks = forAllSystems (system: {
         nixos-module-eval = import ./nixos/eval.nix { inherit system nixpkgs nixpkgs-k3s sops-nix; };
       });
+      devShells = forAllSystems (system:
+        let pkgs = import nixpkgs { inherit system; };
+        in {
+          default = pkgs.mkShellNoCC {
+            packages = [ pkgs.age pkgs.gitleaks pkgs.kubectl pkgs.shellcheck pkgs.yamllint ];
+          };
+        });
     };
 }
