@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "title": "Rehearse ARM64 image flashing and Pi provisioning",
   "intent": "Add reproducible ARM64 image outputs, safe flash rehearsal, hardware-only preflight, inventory evidence, and documented rollback without physical provisioning.",
-  "state": "DRAFT",
+  "state": "APPROVED",
   "todo_ids": [
     "bugs_01kxaa1f2tcgjec9"
   ],
@@ -24,5 +24,5 @@
     "file_touch_budget": 12
   },
   "phases": [],
-  "updated_at": "1783831657Z"
+  "updated_at": "1783831678Z"
 }

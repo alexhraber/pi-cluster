@@ -10,6 +10,9 @@
   environment.defaultPackages = [];
   environment.systemPackages = [ pkgs.curl pkgs.git ];
   users.mutableUsers = false;
+  # The bootstrap image has no committed credential. Access is intentionally
+  # provisioned by the operator during the post-image NixOS switch.
+  users.allowNoPasswordLogin = true;
   security.sudo.wheelNeedsPassword = false;
   boot.kernel.sysctl."vm.swappiness" = 10;
 }

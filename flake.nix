@@ -19,12 +19,21 @@
           { networking.hostName = nodeName; }
         ];
       };
+      piConfig = nodeName: nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        specialArgs = { inputs = { inherit self sops-nix; }; };
+        modules = [ ./nixos/hosts/${nodeName}.nix ];
+      };
     in {
       nixosConfigurations = {
         pi-01-image = piImage "pi-01";
         pi-02-image = piImage "pi-02";
         pi-03-image = piImage "pi-03";
         pi-04-image = piImage "pi-04";
+        pi-01 = piConfig "pi-01";
+        pi-02 = piConfig "pi-02";
+        pi-03 = piConfig "pi-03";
+        pi-04 = piConfig "pi-04";
       };
       nixosModules.k3s-server = import ./nixos/modules/k3s-server.nix;
       nixosModules.k3s-worker = import ./nixos/modules/k3s-worker.nix;
