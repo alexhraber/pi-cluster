@@ -7,6 +7,11 @@ part of this checklist.
 
 Use the safe inspection script from the repository on each node:
 
+First collect the non-mutating hardware and media facts with
+[`collect-node-inventory.sh`](../scripts/collect-node-inventory.sh), following
+the procedure in [the inventory worksheet](pi-node-inventory.md). Then run the
+preflight gate below.
+
 ```bash
 # Before Cube or K3s exists:
 sudo MODE=hardware-only EXPECTED_NODE=pi-01 scripts/pi-preflight.sh
