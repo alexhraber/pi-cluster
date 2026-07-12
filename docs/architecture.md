@@ -25,5 +25,7 @@ applications own their persistent data on explicitly selected media.
 The proposed LAN addresses, DNS names, reservations, and north-south exposure
 policy are recorded in [networking/lan-plan.md](../networking/lan-plan.md).
 The address range remains an operator-verified assumption until the physical
-LAN is checked. Storage medium/filesystem, ingress implementation details, and
-mesh choice still require facts from the actual LAN and measurements on Pi 3B+.
+LAN is checked. The future ingress selection and its measurement gates are in
+[ingress/design.md](../ingress/design.md); no ingress is installed. Storage
+medium/filesystem and mesh choice still require facts from the actual LAN and
+measurements on Pi 3B+.

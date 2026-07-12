@@ -24,10 +24,12 @@ unused and reserve the addresses in the LAN DHCP service before provisioning.
 
 ## Workload exposure decision
 
-The production direction is redundant ingress on `pi-01` and `pi-02`, with LAN
-clients targeting those fixed addresses. No ingress controller is installed
-by this issue. Direct Pi host ports are allowed only for early diagnostics and
-single-node tests; they are not the production exposure contract.
+The selected future production direction is documented in
+[ingress/design.md](../ingress/design.md): two Traefik replicas on `pi-01`
+and `pi-02`, fixed NodePorts, and LAN DNS answers for both fixed addresses.
+No ingress controller is installed by this repository phase. Direct Pi host
+ports are allowed only for early diagnostics and single-node tests; they are
+not the production exposure contract.
 
 Future ingress must tolerate Cube being off, preserve the selected client
 traffic policy, and document what happens when either ingress Pi is lost.
@@ -41,6 +43,10 @@ Endpoint programming, and DNS changes stop until Cube returns. LAN DNS remains
 an independent router/DNS concern and must not be hosted only on Cube.
 
 ## Pre-provisioning gate
+
+Use [lan-evidence.md](lan-evidence.md) and
+`scripts/check-lan-prerequisites.sh` from the intended admin network. The
+proposed addresses below are placeholders until that evidence is recorded.
 
 Before startup, an operator must replace any incorrect assumptions with the
 actual LAN values and record evidence that:

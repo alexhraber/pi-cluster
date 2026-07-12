@@ -1,57 +1,78 @@
-# Raspberry Pi image path
+# ARM64 Pi image and provisioning path
 
-The repository defines a minimal 64-bit NixOS SD image for each Pi. The image
-does not contain K3s, cluster secrets, workloads, ingress, a service mesh, or
-persistent application data. Those are applied only after the hardware
-preflight gate passes.
+## Selected strategy
 
-## Rehearsal sequence
+Build minimal 64-bit NixOS SD images from the pinned flake using the native
+NixOS `sd-image-aarch64` module. The image stage contains SSH, time
+synchronization, minimal diagnostics, and no K3s, sops-nix, cluster token,
+kubeconfig, desktop, workload, ingress, operator, or mesh.
 
-Build all four `aarch64-linux` outputs without creating a `result` symlink:
+The image outputs are node-specific for stable hostnames:
 
-```bash
-./scripts/build-pi-images.sh
-```
+- `nixosConfigurations.pi-01-image`
+- `nixosConfigurations.pi-02-image`
+- `nixosConfigurations.pi-03-image`
+- `nixosConfigurations.pi-04-image`
 
-The script validates each compressed archive and prints its SHA-256 digest.
-Copy each artifact path and digest into [pi-flash-manifest.yaml](pi-flash-manifest.yaml)
-under operator control. Do not commit the image itself.
+The post-image configurations are separate:
 
-Before any device write, identify the exact removable device by stable ID and
-perform the mandatory read-only rehearsal:
+- `nixosConfigurations.pi-01` through `pi-04` add each K3s agent and runtime
+  sops-nix token path.
+- The image must boot and pass preflight before the post-image configuration
+  is applied.
 
-```bash
-NODE=pi-01 IMAGE=/path/to/nixos-sd-image.img.zst \
-  MEDIA_BY_ID=/dev/disk/by-id/usb-EXACT-MEDIA \
-  EXPECTED_SHA256=... ./scripts/flash-pi-dry-run.sh
-```
+## Build and write (future operator action)
 
-This checks the digest and archive, prints `lsblk` identity information, and
-prints the eventual write command without invoking `dd`. A human must review
-the resolved device and approve the write. The manifest remains
-`NOT_PHYSICALLY_RUN` until real evidence exists.
-
-After an approved write and first boot, collect inventory and run the
-hardware-only gate before applying cluster configuration:
+Run from a trusted x86_64 NixOS workstation after Day-0 readiness approval:
 
 ```bash
-sudo EXPECTED_NODE=pi-01 EXPECTED_API=cube.lan MODE=hardware-only \
-  ./scripts/pi-preflight.sh
-./scripts/collect-node-inventory.sh pi-01
-nixos-rebuild switch --flake .#pi-01 --target-host <pi-01-admin-address>
+nix build .#nixosConfigurations.pi-01-image.config.system.build.sdImage
+ls -lh result/sd-image/
+sha256sum result/sd-image/*
+zstdcat result/sd-image/*.img.zst | sudo dd of=/dev/disk/by-id/<pi-01-media> bs=4M conv=fsync status=progress
+sync
 ```
 
-Repeat per node. Post-image configuration is the first point at which node
-identity, encrypted runtime secrets, and K3s agent state are introduced. Do
-not enable or join K3s as part of image rehearsal.
+Repeat for each node-specific image and record the output hash in
+[the flash manifest](pi-flash-manifest.yaml) and node inventory. Verify the
+target device before writing; the command is destructive to the selected
+media. The manifest is a dry-run review artifact and never writes a device.
 
-## Evidence and rollback
+The image build itself does not require a secret payload and must not receive
+one. Do not write an image to hardware until the Day-0 checklist is approved.
 
-Record outside Git or in the non-secret manifest: image path and digest, media
-`/dev/disk/by-id` and serial, MAC address, hostname, kernel, firmware,
-preflight output hash, operator, and timestamp. If a node fails the gate,
-remove it from service, preserve its evidence, and either reapply the matching
-NixOS node configuration or reimage the media from a newly verified artifact.
-Reimage is destructive: confirm the stable media ID again and repeat the dry
-run. Back up application data before replacing media. This procedure does not
-claim any physical node has been provisioned.
+## First boot and node configuration
+
+1. Boot the Pi from the approved high-endurance media.
+2. Confirm the expected hostname, ARM64 architecture, SSH access, time sync,
+   storage, power/cooling, DNS, and route using `scripts/pi-preflight.sh`.
+3. Record the image hash, kernel, firmware, MAC, address reservation, and
+   complete preflight output.
+4. From the operator workstation, apply the corresponding node configuration
+   only after the preflight is `PHYSICALLY-VERIFIED`:
+
+   `nixos-rebuild switch --flake .#pi-01 --target-host <pi-01-admin-address>`
+
+5. Confirm the sops-nix encrypted payload and age-key access are available to
+   activation. The K3s agent is not considered ready until the secret exists.
+6. Run the cluster verification procedure after the explicit worker-join
+   approval. The image path itself never joins K3s.
+
+## Firmware and rollback assumptions
+
+- Use a 64-bit-compatible Pi 3B+ firmware/bootloader and record its version.
+- Keep the prior known-good image and node configuration until the new image
+  passes preflight.
+- If a node fails preflight, remove its media, restore the prior image, and
+  record the failure; do not troubleshoot by joining the cluster.
+- If post-image configuration fails, boot the image-stage system again and
+  preserve the worker's prior identity and data according to the recovery
+  procedure.
+
+## Proof boundary
+
+Reproducible image evaluation/build proves repository output reproducibility,
+not hardware compatibility. Physical readiness requires the Day-0 checklist,
+Pi preflight evidence, actual media/hash records, and explicit operator
+approval. Issues #17 and #18 remain blocked from physical execution until that
+gate is complete.

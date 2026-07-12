@@ -1,34 +1,22 @@
 version: 1
-description: Non-secret, operator-filled record for ARM64 image and media rehearsal.
-rehearsal:
-  status: NOT_PHYSICALLY_RUN
-  device_write: DEFERRED_UNTIL_DAY0_APPROVAL
+description: Non-secret, operator-filled mapping from Pi names to reproducible image outputs.
 image_system: aarch64-linux
 nodes:
   - name: pi-01
     image_attribute: nixosConfigurations.pi-01-image.config.system.build.sdImage
-    image_artifact: FILL_AFTER_NIX_BUILD
     image_sha256: FILL_AFTER_NIX_BUILD
     media_by_id: FILL_OPERATOR_MEDIA_ID
-    post_image_attribute: nixosConfigurations.pi-01
   - name: pi-02
     image_attribute: nixosConfigurations.pi-02-image.config.system.build.sdImage
-    image_artifact: FILL_AFTER_NIX_BUILD
     image_sha256: FILL_AFTER_NIX_BUILD
     media_by_id: FILL_OPERATOR_MEDIA_ID
-    post_image_attribute: nixosConfigurations.pi-02
   - name: pi-03
     image_attribute: nixosConfigurations.pi-03-image.config.system.build.sdImage
-    image_artifact: FILL_AFTER_NIX_BUILD
     image_sha256: FILL_AFTER_NIX_BUILD
     media_by_id: FILL_OPERATOR_MEDIA_ID
-    post_image_attribute: nixosConfigurations.pi-03
   - name: pi-04
     image_attribute: nixosConfigurations.pi-04-image.config.system.build.sdImage
-    image_artifact: FILL_AFTER_NIX_BUILD
     image_sha256: FILL_AFTER_NIX_BUILD
     media_by_id: FILL_OPERATOR_MEDIA_ID
-    post_image_attribute: nixosConfigurations.pi-04
 
-# This file is a record, not authorization to write a block device. Never add
-# credentials, private keys, raw images, or runtime state here.
+# This file is a reviewable dry-run plan. It never authorizes writing a device.

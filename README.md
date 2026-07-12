@@ -23,7 +23,7 @@ controller, distributed storage, or an observability stack.
 - `k3s/` — pinned-version policy and server/agent configuration contracts.
 - `kubernetes/` — empty-by-design manifest roots and future workload layout.
 - `networking/` — LAN, CNI, DNS, and north-south invariants.
-- `ingress/` — future redundant ingress placement contract.
+- `ingress/` — future redundant ingress design and placement contract.
 - `mesh/` — service-mesh decision record; no mesh installation.
 - `scripts/` — read-only and disruption-test verification tooling.
 - `docs/` — architecture, operations, failure, backup, and recovery procedures.
