@@ -51,6 +51,7 @@ The following are design evidence, not physical readiness:
 - [K3s version policy](../k3s/version-policy.md)
 - [Service-mesh evaluation](service-mesh.md)
 - [Future ingress design](../ingress/design.md)
+- [Node inventory worksheet](pi-node-inventory.md)
 
 Repository validation and CI passing do not change a physical row to
 `PHYSICALLY-VERIFIED`.

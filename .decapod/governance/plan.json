@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "title": "Close repository-level startup gaps",
-  "intent": "Make Cube and Pi configurations, package pinning, API TLS, token semantics, hardware-only preflight, and flash planning explicit without starting cluster services.",
+  "title": "Complete physical hardware and media inventory workflow",
+  "intent": "Provide a read-only, evidence-backed inventory process for Cube and four Pi nodes without fabricating physical facts or starting cluster services.",
   "state": "APPROVED",
   "todo_ids": [
-    "bugs_01kx9xhy62pxf1p2"
+    "bugs_01kx9yvhfre0w1d9"
   ],
   "proof_hooks": [
     "git diff --check; nix flake check --no-build --no-update-lock-file; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
@@ -14,7 +14,7 @@
   "stop_conditions": [],
   "unresolved_contradictions": [],
   "deferred_questions": [
-    "Do not activate K3s or write Pi media until Day-0 physical verification and explicit startup approval."
+    "Keep all nodes BLOCKED until physical inspection, MAC/reservation verification, power/cooling/media evidence, and operator approval are recorded."
   ],
   "constraints": {
     "forbidden_paths": [
@@ -23,5 +23,5 @@
     "file_touch_budget": 8
   },
   "phases": [],
-  "updated_at": "1783819031Z"
+  "updated_at": "1783821693Z"
 }
