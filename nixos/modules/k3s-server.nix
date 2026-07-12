@@ -6,6 +6,7 @@ in {
     package = lib.mkOption { type = lib.types.package; default = k3sPkgs.k3s; };
     nodeName = lib.mkOption { type = lib.types.str; default = "cube"; };
     advertiseAddress = lib.mkOption { type = lib.types.str; description = "Stable LAN API address."; };
+    tlsSans = lib.mkOption { type = lib.types.listOf lib.types.str; default = []; description = "Additional API TLS SANs; include the stable hostname and final LAN address."; };
     tokenFile = lib.mkOption { type = lib.types.path; description = "Runtime secret path, never plaintext in Nix."; };
     extraServerArgs = lib.mkOption { type = lib.types.listOf lib.types.str; default = []; };
   };
@@ -16,7 +17,7 @@ in {
     services.k3s = {
       enable = true; role = "server"; package = cfg.package; tokenFile = cfg.tokenFile;
       serverAddr = "https://${cfg.advertiseAddress}:6443";
-      extraFlags = [ "--node-name=${cfg.nodeName}" "--node-taint=node-role.kubernetes.io/control-plane:NoSchedule" "--disable=traefik" "--disable=servicelb" "--disable=local-storage" "--flannel-backend=vxlan" "--write-kubeconfig-mode=0640" ] ++ cfg.extraServerArgs;
+      extraFlags = [ "--node-name=${cfg.nodeName}" "--node-taint=node-role.kubernetes.io/control-plane:NoSchedule" "--disable=traefik" "--disable=servicelb" "--disable=local-storage" "--flannel-backend=vxlan" "--write-kubeconfig-mode=0640" ] ++ map (san: "--tls-san=${san}") (lib.unique ([ cfg.advertiseAddress ] ++ cfg.tlsSans)) ++ cfg.extraServerArgs;
     };
     # K3s owns this persistent identity/datastore boundary across generations.
     systemd.tmpfiles.rules = [ "d /var/lib/rancher/k3s 0700 root root -" "d /etc/k3s 0700 root root -" ];

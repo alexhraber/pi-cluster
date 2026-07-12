@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "title": "Select future redundant ingress design",
-  "intent": "Document a future LAN ingress architecture that remains reachable while Cube is offline, fits four 1 GB Pi workers, and does not install ingress in this phase.",
+  "title": "Close repository-level startup gaps",
+  "intent": "Make Cube and Pi configurations, package pinning, API TLS, token semantics, hardware-only preflight, and flash planning explicit without starting cluster services.",
   "state": "APPROVED",
   "todo_ids": [
-    "bugs_01kx9qbkb2sq4qr2"
+    "bugs_01kx9xhy62pxf1p2"
   ],
   "proof_hooks": [
     "git diff --check; nix flake check --no-build --no-update-lock-file; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
@@ -14,7 +14,7 @@
   "stop_conditions": [],
   "unresolved_contradictions": [],
   "deferred_questions": [
-    "Approve installation only after Day-0 physical verification and the documented Traefik resource/offline gates pass."
+    "Do not activate K3s or write Pi media until Day-0 physical verification and explicit startup approval."
   ],
   "constraints": {
     "forbidden_paths": [
@@ -23,5 +23,5 @@
     "file_touch_budget": 8
   },
   "phases": [],
-  "updated_at": "1783812751Z"
+  "updated_at": "1783819031Z"
 }

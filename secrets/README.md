@@ -2,7 +2,9 @@
 
 The real `cluster.yaml` and `.sops.yaml` are operator-managed and must not be
 committed in plaintext. Use [docs/secrets.md](../docs/secrets.md) to create an
-encrypted sops-nix payload containing `k3s.server-token` and `k3s.agent-token`.
+encrypted sops-nix payload containing `k3s.server-token`. The Pi agents use
+that same token by deliberate design; a separate agent token requires explicit
+server wiring and a separate recovery contract.
 
 The encrypted file belongs at `secrets/cluster.yaml`; this repository does not
 ship a placeholder token or a private age key.

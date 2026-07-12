@@ -9,7 +9,12 @@ only at activation time into root-owned files under `/run/secrets`.
 The Cube and Pi host snippets import sops-nix and reference these runtime paths:
 
 - Cube: `/run/secrets/k3s-server-token`, key `k3s/server-token`.
-- Pi workers: `/run/secrets/k3s-agent-token`, key `k3s/agent-token`.
+- Pi workers: `/run/secrets/k3s-agent-token`, key `k3s/server-token`.
+
+The agent token intentionally equals the server token. This follows K3s's
+default token behavior and keeps the single recovery-critical token aligned
+with the datastore backup. A future separate agent token requires explicit
+server `--agent-token` wiring and a separate recovery procedure.
 
 The K3s service is ordered after `sops-install-secrets.service`, so it cannot
 start before the token file has been materialized. Secret values never become

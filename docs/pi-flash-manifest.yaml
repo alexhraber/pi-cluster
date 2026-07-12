@@ -1,0 +1,22 @@
+version: 1
+description: Non-secret, operator-filled mapping from Pi names to reproducible image outputs.
+image_system: aarch64-linux
+nodes:
+  - name: pi-01
+    image_attribute: nixosConfigurations.pi-01-image.config.system.build.sdImage
+    image_sha256: FILL_AFTER_NIX_BUILD
+    media_by_id: FILL_OPERATOR_MEDIA_ID
+  - name: pi-02
+    image_attribute: nixosConfigurations.pi-02-image.config.system.build.sdImage
+    image_sha256: FILL_AFTER_NIX_BUILD
+    media_by_id: FILL_OPERATOR_MEDIA_ID
+  - name: pi-03
+    image_attribute: nixosConfigurations.pi-03-image.config.system.build.sdImage
+    image_sha256: FILL_AFTER_NIX_BUILD
+    media_by_id: FILL_OPERATOR_MEDIA_ID
+  - name: pi-04
+    image_attribute: nixosConfigurations.pi-04-image.config.system.build.sdImage
+    image_sha256: FILL_AFTER_NIX_BUILD
+    media_by_id: FILL_OPERATOR_MEDIA_ID
+
+# This file is a reviewable dry-run plan. It never authorizes writing a device.

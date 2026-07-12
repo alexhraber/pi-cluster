@@ -12,14 +12,16 @@
     let systems = [ "x86_64-linux" "aarch64-linux" ];
         forAllSystems = f: nixpkgs.lib.genAttrs systems (system: f system);
         inputs = { inherit self nixpkgs nixpkgs-k3s sops-nix; };
+        mkClusterArgs = system: { inherit inputs; k3sPkgs = import nixpkgs-k3s { inherit system; }; };
     in {
       nixosModules.k3s-server = import ./nixos/modules/k3s-server.nix;
       nixosModules.k3s-worker = import ./nixos/modules/k3s-worker.nix;
       nixosConfigurations = {
-        pi-01 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-01.nix ]; specialArgs = { inherit inputs; }; };
-        pi-02 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-02.nix ]; specialArgs = { inherit inputs; }; };
-        pi-03 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-03.nix ]; specialArgs = { inherit inputs; }; };
-        pi-04 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-04.nix ]; specialArgs = { inherit inputs; }; };
+        cube = nixpkgs.lib.nixosSystem { system = "x86_64-linux"; modules = [ ./nixos/hardware/cube-generic.nix ./nixos/hosts/cube/configuration.nix ]; specialArgs = mkClusterArgs "x86_64-linux"; };
+        pi-01 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-01.nix ]; specialArgs = mkClusterArgs "aarch64-linux"; };
+        pi-02 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-02.nix ]; specialArgs = mkClusterArgs "aarch64-linux"; };
+        pi-03 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-03.nix ]; specialArgs = mkClusterArgs "aarch64-linux"; };
+        pi-04 = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/hardware/pi-generic.nix ./nixos/hosts/pi-04.nix ]; specialArgs = mkClusterArgs "aarch64-linux"; };
         pi-01-image = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/images/pi-sd-aarch64.nix ({ networking.hostName = "pi-01"; }) ]; };
         pi-02-image = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/images/pi-sd-aarch64.nix ({ networking.hostName = "pi-02"; }) ]; };
         pi-03-image = nixpkgs.lib.nixosSystem { system = "aarch64-linux"; modules = [ ./nixos/images/pi-sd-aarch64.nix ({ networking.hostName = "pi-03"; }) ]; };
