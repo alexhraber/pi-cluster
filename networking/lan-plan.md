@@ -44,6 +44,10 @@ an independent router/DNS concern and must not be hosted only on Cube.
 
 ## Pre-provisioning gate
 
+Use [lan-evidence.md](lan-evidence.md) and
+`scripts/check-lan-prerequisites.sh` from the intended admin network. The
+proposed addresses below are placeholders until that evidence is recorded.
+
 Before startup, an operator must replace any incorrect assumptions with the
 actual LAN values and record evidence that:
 
