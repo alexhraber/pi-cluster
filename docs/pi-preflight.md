@@ -8,7 +8,11 @@ part of this checklist.
 Use the safe inspection script from the repository on each node:
 
 ```bash
-sudo EXPECTED_NODE=pi-01 EXPECTED_API=cube.lan scripts/pi-preflight.sh
+# Before Cube or K3s exists:
+sudo MODE=hardware-only EXPECTED_NODE=pi-01 scripts/pi-preflight.sh
+
+# After the LAN/API prerequisite is verified:
+sudo MODE=cluster EXPECTED_NODE=pi-01 EXPECTED_API=cube.lan scripts/pi-preflight.sh
 ```
 
 Change only `EXPECTED_NODE` for the other three nodes. Save the complete
@@ -30,7 +34,7 @@ operator-controlled evidence store. A failed check blocks startup.
 | Storage | High-endurance boot media is identified, mounted, and has required free space | `findmnt`, `df`, and media inventory |
 | Power/cooling | Stable supply, cable, enclosure, and cooling are recorded | Hardware inspection |
 | Network link | Ethernet/Wi-Fi decision, link state, default route, and DNS are recorded | Script output and LAN evidence |
-| API route | `cube.lan` resolves and the Pi has a route toward Cube; TCP 6443 is not required yet | Script output |
+| API route | In cluster mode, `cube.lan` resolves and the Pi has a route toward Cube; hardware-only mode intentionally defers this check | Script output |
 | Cgroups | cgroup v2 is available for the container runtime | Script output |
 | K3s state | Persistent target for `/var/lib/rancher/k3s` is selected; it is not created by this checklist | Storage record |
 

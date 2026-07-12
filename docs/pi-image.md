@@ -33,9 +33,10 @@ zstdcat result/sd-image/*.img.zst | sudo dd of=/dev/disk/by-id/<pi-01-media> bs=
 sync
 ```
 
-Repeat for each node-specific image and record the output hash in the node
-inventory. Verify the target device before writing; the command is destructive
-to the selected media.
+Repeat for each node-specific image and record the output hash in
+[the flash manifest](pi-flash-manifest.yaml) and node inventory. Verify the
+target device before writing; the command is destructive to the selected
+media. The manifest is a dry-run review artifact and never writes a device.
 
 The image build itself does not require a secret payload and must not receive
 one. Do not write an image to hardware until the Day-0 checklist is approved.

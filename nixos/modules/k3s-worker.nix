@@ -1,4 +1,4 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, k3sPkgs ? pkgs, ... }:
 let cfg = config.piCluster.k3s.worker;
 in {
   options.piCluster.k3s.worker = {
@@ -6,7 +6,7 @@ in {
     nodeName = lib.mkOption { type = lib.types.str; };
     apiAddress = lib.mkOption { type = lib.types.str; };
     tokenFile = lib.mkOption { type = lib.types.path; description = "Runtime-only agent token file."; };
-    package = lib.mkOption { type = lib.types.package; default = pkgs.k3s; };
+    package = lib.mkOption { type = lib.types.package; default = k3sPkgs.k3s; };
   };
   config = lib.mkIf cfg.enable {
     assertions = [ { assertion = lib.hasPrefix "pi-" cfg.nodeName; message = "Pi names must use pi-XX."; } ];
