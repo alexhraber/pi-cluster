@@ -7,4 +7,7 @@ that same token by deliberate design; a separate agent token requires explicit
 server wiring and a separate recovery contract.
 
 The encrypted file belongs at `secrets/cluster.yaml`; this repository does not
-ship a placeholder token or a private age key.
+ship a placeholder token or a private age key. Run
+`scripts/prepare-secrets.sh` from the Nix development shell to create the
+operator-managed payload locally. Review the encrypted diff before committing
+it; never commit the decrypted source or local `secrets/.sops.yaml`.

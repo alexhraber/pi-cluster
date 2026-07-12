@@ -34,7 +34,7 @@
         let pkgs = import nixpkgs { inherit system; };
         in {
           default = pkgs.mkShellNoCC {
-            packages = [ pkgs.age pkgs.gitleaks pkgs.kubectl pkgs.shellcheck pkgs.yamllint ];
+            packages = [ pkgs.age pkgs.sops pkgs.gitleaks pkgs.kubectl pkgs.shellcheck pkgs.yamllint ];
           };
         });
     };

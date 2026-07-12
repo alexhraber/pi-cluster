@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "title": "Complete physical hardware and media inventory workflow",
-  "intent": "Provide a read-only, evidence-backed inventory process for Cube and four Pi nodes without fabricating physical facts or starting cluster services.",
+  "title": "Create and verify encrypted cluster secrets",
+  "intent": "Provide a safe, reproducible sops-nix and age workflow for the shared K3s token without creating or exposing plaintext credentials.",
   "state": "APPROVED",
   "todo_ids": [
-    "bugs_01kx9yvhfre0w1d9"
+    "bugs_01kxa182pyvr7yxc"
   ],
   "proof_hooks": [
     "git diff --check; nix flake check --no-build --no-update-lock-file; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
@@ -14,7 +14,7 @@
   "stop_conditions": [],
   "unresolved_contradictions": [],
   "deferred_questions": [
-    "Keep all nodes BLOCKED until physical inspection, MAC/reservation verification, power/cooling/media evidence, and operator approval are recorded."
+    "Do not activate K3s until the operator has created encrypted secrets/cluster.yaml, tested recovery-key decryption, and recorded the protected recovery copy."
   ],
   "constraints": {
     "forbidden_paths": [
@@ -23,5 +23,5 @@
     "file_touch_budget": 8
   },
   "phases": [],
-  "updated_at": "1783821693Z"
+  "updated_at": "1783823107Z"
 }
