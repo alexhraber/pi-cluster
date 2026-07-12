@@ -1,27 +1,26 @@
 {
   "schema_version": "1.0.0",
-  "title": "Verify LAN, DNS, time, and node connectivity",
-  "intent": "Provide automated admin-network checks and explicit manual evidence requirements for DHCP, firewall, switch topology, DNS, NTP, K3s API, and Flannel VXLAN before startup.",
+  "title": "Prepare encrypted backup and recovery readiness",
+  "intent": "Add encrypted K3s server and worker backup verification, isolated restore rehearsal, retention and Day-0 recovery evidence without touching live state.",
   "state": "APPROVED",
   "todo_ids": [
-    "bugs_01kxa182pyvr7yxc"
+    "bugs_01kxaasv815rqhm2"
   ],
   "proof_hooks": [
-    "git diff --check; nix flake check --no-build --no-update-lock-file; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
+    "git diff --check; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
   ],
   "unknowns": [],
   "human_questions": [],
   "stop_conditions": [],
   "unresolved_contradictions": [],
-  "deferred_questions": [
-    "Do not mark the LAN ready until actual addresses/reservations, DNS answers, firewall rules, UDP 8472 node paths, switch topology, and NTP evidence are recorded."
-  ],
+  "deferred_questions": [],
   "constraints": {
     "forbidden_paths": [
-      ".decapod/"
+      ".decapod/",
+      "/var/lib/rancher/k3s"
     ],
     "file_touch_budget": 8
   },
   "phases": [],
-  "updated_at": "1783830858Z"
+  "updated_at": "1783832290Z"
 }
