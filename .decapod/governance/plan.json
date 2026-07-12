@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Rehearse ARM64 image flashing and Pi provisioning",
+  "intent": "Add reproducible ARM64 image outputs, safe flash rehearsal, hardware-only preflight, inventory evidence, and documented rollback without physical provisioning.",
+  "state": "DRAFT",
+  "todo_ids": [
+    "bugs_01kxaa1f2tcgjec9"
+  ],
+  "proof_hooks": [
+    "decapod validate"
+  ],
+  "unknowns": [],
+  "human_questions": [],
+  "stop_conditions": [],
+  "unresolved_contradictions": [],
+  "deferred_questions": [
+    "Do not write media or apply K3s configuration until Day-0 physical verification and explicit approval."
+  ],
+  "constraints": {
+    "forbidden_paths": [
+      "/dev/disk/*",
+      "secrets/cluster.yaml"
+    ],
+    "file_touch_budget": 12
+  },
+  "phases": [],
+  "updated_at": "1783831657Z"
+}
