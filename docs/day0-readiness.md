@@ -52,6 +52,7 @@ The following are design evidence, not physical readiness:
 - [Service-mesh evaluation](service-mesh.md)
 - [Future ingress design](../ingress/design.md)
 - [Node inventory worksheet](pi-node-inventory.md)
+- [LAN verification evidence](../networking/lan-evidence.md)
 
 Repository validation and CI passing do not change a physical row to
 `PHYSICALLY-VERIFIED`.

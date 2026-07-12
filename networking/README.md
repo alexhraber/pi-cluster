@@ -9,6 +9,11 @@ The proposed address, DNS, reservation, and ingress contract is in
 [lan-plan.md](lan-plan.md). It uses `cube.lan` plus `pi-01.lan` through
 `pi-04.lan`, with fixed addresses proposed for operator confirmation.
 
+Use [lan-evidence.md](lan-evidence.md) and
+`scripts/check-lan-prerequisites.sh` to verify the actual admin-network path.
+The script cannot prove DHCP reservations, firewall policy, switch topology, or
+UDP VXLAN reachability by itself; those remain explicit evidence requirements.
+
 Production workload exposure is planned through redundant ingress on known
 Pis. Direct host ports are diagnostic-only until that ingress is designed and
 deployed. North-south traffic must use the LAN/router and Pi addresses, never
