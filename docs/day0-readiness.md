@@ -50,6 +50,7 @@ The following are design evidence, not physical readiness:
 - [Offline-control-plane test design](offline-test-workload.md)
 - [K3s version policy](../k3s/version-policy.md)
 - [Backup and recovery runbook](backup-recovery.md)
+- [Controlled first-start runbook](first-start-runbook.md)
 - [Service-mesh evaluation](service-mesh.md)
 - [Future ingress design](../ingress/design.md)
 - [Node inventory worksheet](pi-node-inventory.md)

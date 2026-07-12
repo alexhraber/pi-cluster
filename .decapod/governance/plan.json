@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0.0",
-  "title": "Prepare encrypted backup and recovery readiness",
-  "intent": "Add encrypted K3s server and worker backup verification, isolated restore rehearsal, retention and Day-0 recovery evidence without touching live state.",
+  "title": "Execute controlled first-start and validation sequence",
+  "intent": "Provide a gated, evidence-producing first-start runbook and guarded outage/reboot verification without claiming physical cluster readiness.",
   "state": "APPROVED",
   "todo_ids": [
-    "bugs_01kxaasv815rqhm2"
+    "bugs_01kxab7pbc890abr"
   ],
   "proof_hooks": [
     "git diff --check; nix develop --accept-flake-config -c ./scripts/validate-repo.sh; decapod validate"
@@ -22,5 +22,5 @@
     "file_touch_budget": 8
   },
   "phases": [],
-  "updated_at": "1783832290Z"
+  "updated_at": "1783832879Z"
 }
