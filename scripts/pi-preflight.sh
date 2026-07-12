@@ -2,7 +2,12 @@
 set -euo pipefail
 
 : "${EXPECTED_NODE:?set EXPECTED_NODE to pi-01, pi-02, pi-03, or pi-04}"
-: "${EXPECTED_API:?set EXPECTED_API to the stable Cube DNS name}"
+MODE="${MODE:-hardware-only}"
+case "$MODE" in
+  hardware-only) ;;
+  cluster) : "${EXPECTED_API:?set EXPECTED_API to the stable Cube DNS name}" ;;
+  *) printf 'MODE must be hardware-only or cluster\n' >&2; exit 2 ;;
+esac
 
 pass=0
 fail=0
@@ -27,13 +32,16 @@ check "ARM64 architecture" test "$(uname -m)" = aarch64
 check "stable hostname" test "$(hostname -s)" = "$EXPECTED_NODE"
 check "cgroup v2" test "$(stat -fc %T /sys/fs/cgroup)" = cgroup2fs
 check "default route" sh -c 'ip route show default | grep -q .'
-api_ip="$(getent ahostsv4 "$EXPECTED_API" 2>/dev/null | awk 'NR == 1 { print $1 }')"
-check "Cube DNS resolution" test -n "$api_ip"
-if [[ -n "$api_ip" ]]; then
-  check "route toward Cube" route_check "$api_ip"
-else
-  printf 'FAIL  route toward Cube (DNS did not produce an IPv4 address)\n' >&2
-  fail=$((fail + 1))
+api_ip="not-checked"
+if [[ "$MODE" == cluster ]]; then
+  api_ip="$(getent ahostsv4 "$EXPECTED_API" 2>/dev/null | awk 'NR == 1 { print $1 }')"
+  check "Cube DNS resolution" test -n "$api_ip"
+  if [[ -n "$api_ip" ]]; then
+    check "route toward Cube" route_check "$api_ip"
+  else
+    printf 'FAIL  route toward Cube (DNS did not produce an IPv4 address)\n' >&2
+    fail=$((fail + 1))
+  fi
 fi
 check "SSH service active" systemctl is-active --quiet sshd.service
 check "NTP synchronized" ntp_check
@@ -48,5 +56,5 @@ else
   printf 'WARN  thermal sensor unavailable; record manual cooling evidence\n'
 fi
 
-printf 'RESULT pass=%s fail=%s node=%s api=%s\n' "$pass" "$fail" "$EXPECTED_NODE" "$EXPECTED_API"
+printf 'RESULT pass=%s fail=%s node=%s mode=%s api=%s\n' "$pass" "$fail" "$EXPECTED_NODE" "$MODE" "$api_ip"
 test "$fail" -eq 0
