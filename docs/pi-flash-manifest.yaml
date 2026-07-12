@@ -1,5 +1,7 @@
 version: 1
 description: Non-secret, operator-filled mapping from Pi names to reproducible image outputs.
+rehearsal_status: NOT_PHYSICALLY_RUN
+device_write: DEFERRED_UNTIL_DAY0_APPROVAL
 image_system: aarch64-linux
 nodes:
   - name: pi-01

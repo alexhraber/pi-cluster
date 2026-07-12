@@ -41,6 +41,29 @@ media. The manifest is a dry-run review artifact and never writes a device.
 The image build itself does not require a secret payload and must not receive
 one. Do not write an image to hardware until the Day-0 checklist is approved.
 
+For a complete, non-destructive rehearsal of all four outputs, use:
+
+```bash
+./scripts/build-pi-images.sh
+```
+
+This prints each artifact and SHA-256 after validating the compressed archive.
+Before a human-approved write, inspect the exact removable device by stable
+ID with:
+
+```bash
+NODE=pi-01 IMAGE=/path/to/image.img.zst \
+  MEDIA_BY_ID=/dev/disk/by-id/usb-EXACT-MEDIA \
+  EXPECTED_SHA256=... ./scripts/flash-pi-dry-run.sh
+```
+
+The dry-run checks the digest and archive, prints `lsblk` identity information,
+and prints (but never executes) the eventual `dd` command. Keep the manifest
+at its not-physically-run status until the real media, image digest, firmware,
+and preflight evidence have been recorded. Failed media can be reimaged only
+after application data is backed up, the stable ID is re-confirmed, and this
+dry-run is repeated.
+
 ## First boot and node configuration
 
 1. Boot the Pi from the approved high-endurance media.
