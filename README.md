@@ -1,5 +1,7 @@
 # pi-cluster
 
+[![🦀 Decapod](https://img.shields.io/badge/🦀%20Decapod-v0.66.3-dc2626)](https://github.com/DecapodLabs/decapod)
+
 Declarative foundation for a deliberately non-HA K3s edge cluster:
 
 ```text
