@@ -36,7 +36,4 @@ jobs:
           DECAPOD_VALIDATE_SKIP_GIT_GATES: 1
         run: |
           decapod init --proof
-          WORKSPACE_OUTPUT=$(decapod workspace ensure 2>&1)
-          WORKSPACE_DIR=$(echo "$WORKSPACE_OUTPUT" | grep -o '"worktree_path":"[^"]*"' | cut -d'"' -f4)
-          cd "$WORKSPACE_DIR"
-          decapod validate
+          decapod validate --refresh-specs
